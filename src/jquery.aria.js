@@ -31,7 +31,7 @@
       elem = $(elem);
 
       if (key === undefined && value === undefined) {
-        attributes = {};
+        var attributes = {};
         $.each(elem[0].attributes, function(i, value) {
           if (value.nodeName.match(/^aria-/)) {
             attributes[value.nodeName.replace(/^aria-/, '')] = value.nodeValue;
@@ -48,10 +48,8 @@
       elem = $(elem);
 
       if (key === undefined) {
-        $.each(elem[0].attributes, function(i, value) {
-          if (value.nodeName.match(/^aria-/)) {
-            elem.removeAttr('aria-' + value.nodeName.replace(/^aria-/, ''));
-          }
+        $.each(elem.aria(), function(key, value) {
+          elem.removeAttr('aria-' + key);
         });
 
         return elem;
