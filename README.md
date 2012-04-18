@@ -15,3 +15,7 @@ jQuery.hasAria(element)
 jQuery.removeAria()
 
 .removeAria()
+
+## License
+
+This is licensed under the MIT license. The license itself can be found in the source.
