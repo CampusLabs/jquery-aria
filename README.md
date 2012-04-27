@@ -61,7 +61,7 @@ This project uses [Semantic Versioning](http://semver.org/).
     jQuery.removeAria(document.getElementById('foo'), 'owns'); // removes the `aria-owns` attribute
     jQuery.removeAria($('#foo')); // removes all `aria` attributes
 
-###.removeAria()###
+###.removeAria([name])###
   An attached function that behaves the same as `jQuery.removeAria`.
 
 ## License
