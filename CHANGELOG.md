@@ -1,4 +1,5 @@
 ## 1.1.0
+  * adding addRole, hasRole, removeRole and toggleRole
   * removeAria accepts a list of names
 
 ## 1.0.1

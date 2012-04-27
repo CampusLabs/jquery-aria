@@ -21,9 +21,9 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// https://github.com/orgsync/jquery-aria
-
-// version 1.1.0
+// version: 1.1.0
+// homepage: https://github.com/orgsync/jquery-aria
+// dependency: jQuery, ~> 1.7.1
 
 (function($) {
   $.extend({
@@ -55,7 +55,7 @@
         keys = keys.split(/\s+/);
       }
 
-      for(var i = keys.length - 1; i >= 0; --i) {
+      for (var i = keys.length - 1; i >= 0; --i) {
         elem.removeAttr('aria-' + keys[i]);
       }
 
@@ -66,7 +66,7 @@
       elem = elem[0] || elem;
 
       for (var i = elem.attributes.length - 1; i >= 0; --i) {
-        if (elem.attributes[i].nodeName.match(/^aria-/)) {
+        if (/^aria-/.test(elem.attributes[i].nodeName)) {
           return true;
         }
       }
@@ -82,6 +82,92 @@
 
     removeAria: function() {
       return $.removeAria.apply($, [this].concat($.makeArray(arguments)));
+    },
+
+    addRole: function(roleName) {
+      if (roleName !== '') {
+        for (var i = this.length - 1; i >= 0; --i) {
+          var elem = this[i];
+          var current_roles = elem.getAttribute('role');
+
+          if (current_roles === null) {
+            elem.setAttribute('role', roleName);
+          } else {
+            var roles = roleName.split(/\s+/);
+            current_roles = ' ' + current_roles + ' ';
+
+            for (var j = 0, roles_length = roles.length; j < roles_length; ++j) {
+              if(current_roles.indexOf(' ' + roles[j] + ' ') === -1) {
+                current_roles += roles[j] + ' ';
+              }
+            }
+
+            elem.setAttribute('role', current_roles.trim());
+          }
+        }
+      }
+
+      return this;
+    },
+
+    hasRole: function(roleName) {
+      for (var i = this.length - 1; i >= 0; --i) {
+        var roles = this[i].getAttribute('role');
+
+        if (roles !== null) {
+          roles = ' ' + roles + ' ';
+
+          if (roles.indexOf(' ' + roleName + ' ') !== -1) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    },
+
+    removeRole: function(roleName) {
+      for (var i = this.length - 1; i >= 0; --i) {
+        var elem = this[i];
+
+        if (arguments.length === 0) {
+          elem.setAttribute('role', '');
+        } else {
+          var current_roles = elem.getAttribute('role');
+
+          if (current_roles !== null) {
+            current_roles = ' ' + current_roles + ' ';
+            var roles = roleName.split(/\s+/);
+
+            for (var j = roles.length - 1; j >= 0; --j) {
+              current_roles = current_roles.replace(' ' + roles[j] + ' ', ' ');
+            }
+
+            elem.setAttribute('role', current_roles.replace(/\s+/, ' ').trim());
+          }
+        }
+      }
+
+      return this;
+    },
+
+    toggleRole: function(roleName, addRole) {
+      if (addRole === true) {
+        this.addRole(roleName);
+      } else if (addRole === false) {
+        this.removeRole(roleName);
+      } else {
+        var current_roles = ' ' + this.attr('role') + ' ';
+        var roles = roleName.split(/\s+/);
+
+        for (var i = roles.length - 1; i >= 0; --i) {
+          current_roles.indexOf(' ' + roles[i] + ' ') === -1 ?
+            this.addRole(roles[i]) :
+            this.removeRole(roles[i]);
+        }
+      }
+
+      return this;
     }
   });
 })(jQuery);
