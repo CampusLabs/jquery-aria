@@ -75,26 +75,47 @@ describe('.aria(key, value)', function() {
 });
 
 describe('jQuery.hasAria(elem)', function() {
-  describe('elem has no aria attributes', function() {
-    it('returns `false`', function() {
-      expect($.hasAria(elem)).toBe(false);
+  describe('elem is not a jQuery element', function() {
+    describe('elem has no aria attributes', function() {
+      it('returns `false`', function() {
+        elem = document.createElement('div');
+
+        expect($.hasAria(elem)).toBe(false);
+      });
+    });
+
+    describe('elem has aria attributes', function() {
+      it('returns `true`', function() {
+        elem = document.createElement('div');
+        elem.setAttribute('aria-haspopup', 'true');
+
+        expect($.hasAria(elem)).toBe(true);
+      });
     });
   });
 
-  describe('elem has aria attributes', function() {
-    it('returns `true`', function() {
-      elem.attr('aria-haspopup', 'true');
+  describe('elem is a jQuery element', function() {
+    describe('elem has no aria attributes', function() {
+      it('returns `false`', function() {
+        expect($.hasAria(elem)).toBe(false);
+      });
+    });
 
-      expect($.hasAria(elem)).toBe(true);
+    describe('elem has aria attributes', function() {
+      it('returns `true`', function() {
+        elem.attr('aria-haspopup', 'true');
+
+        expect($.hasAria(elem)).toBe(true);
+      });
     });
   });
 });
 
-describe('jQuery.removeAria(element [, name])', function() {
-  describe('no names are passed', function() {
+describe('jQuery.removeAria(element [, name or list])', function() {
+  describe('only an element is passed', function() {
     it('removes all aria attributes', function() {
-      elem.attr('aria-haspopup', 'true')
-      elem.attr('aria-owns', 'foo')
+      elem.attr('aria-haspopup', 'true');
+      elem.attr('aria-owns', 'foo');
 
       expect($.removeAria(elem)).toBeJqueryObject();
       expect($.aria(elem)).toEqual({});
@@ -103,28 +124,61 @@ describe('jQuery.removeAria(element [, name])', function() {
 
   describe('a name is passed', function() {
     it('removes the specific aria attribute', function() {
-      elem.attr('aria-haspopup', 'true')
-      elem.attr('aria-owns', 'foo')
+      elem.attr('aria-haspopup', 'true');
+      elem.attr('aria-owns', 'foo');
 
       expect($.removeAria(elem, 'owns')).toBeJqueryObject();
       expect($.aria(elem)).toEqual({haspopup: 'true'});
     });
   });
+
+  describe('a list is passed', function() {
+    describe('the list is a string of space separated names', function() {
+      it('removes the specific aria attributes', function() {
+        elem.attr('aria-haspopup', 'true');
+        elem.attr('aria-owns', 'foo');
+        elem.attr('aria-labelledby', 'bar');
+
+        expect($.removeAria(elem, 'owns labelledby')).toBeJqueryObject();
+        expect($.aria(elem)).toEqual({haspopup: 'true'});
+      });
+    });
+
+    describe('the list is an Array', function() {
+      it('removes the specific aria attributes', function() {
+        elem.attr('aria-haspopup', 'true');
+        elem.attr('aria-owns', 'foo');
+        elem.attr('aria-labelledby', 'bar');
+
+        expect($.removeAria(elem, ['owns', 'labelledby'])).toBeJqueryObject();
+        expect($.aria(elem)).toEqual({haspopup: 'true'});
+      });
+    });
+  });
 });
 
-describe('.removeAria([name])', function() {
+describe('.removeAria([name] [, name])', function() {
   it('handles no variables', function() {
-    elem.attr('aria-haspopup', 'true')
+    elem.attr('aria-haspopup', 'true');
 
     expect(elem.removeAria()).toBeJqueryObject();
     expect($.aria(elem)).toEqual({});
   });
 
   it('handles a name', function() {
-    elem.attr('aria-haspopup', 'true')
-    elem.attr('aria-owns', 'foo')
+    elem.attr('aria-haspopup', 'true');
+    elem.attr('aria-owns', 'foo');
 
     expect(elem.removeAria('owns')).toBeJqueryObject();
+    expect($.aria(elem)).toEqual({haspopup: 'true'});
+  });
+
+  it('handles lists', function() {
+    elem.attr('aria-haspopup', 'true');
+    elem.attr('aria-owns', 'foo');
+    elem.attr('aria-labelledby', 'bar');
+
+    expect(elem.removeAria('owns labelledby')).toBeJqueryObject();
     expect($.aria(elem)).toEqual({haspopup: 'true'});
   });
 });

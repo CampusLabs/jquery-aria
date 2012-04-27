@@ -23,7 +23,7 @@
 
 // https://github.com/orgsync/jquery-aria
 
-// version 1.0.1
+// version 1.1.0
 
 (function($) {
   $.extend({
@@ -46,22 +46,25 @@
       }
     },
 
-    removeAria: function(elem, key) {
+    removeAria: function(elem, keys) {
       elem = $(elem);
 
-      if (key === undefined) {
-        $.each(elem.aria(), function(key, value) {
-          elem.removeAttr('aria-' + key);
-        });
-
-        return elem;
-      } else {
-        return elem.removeAttr('aria-' + key);
+      if (arguments.length === 1) {
+        keys = $.map(elem.aria(), function(_, k) {return k;});
+      } else if (!$.isArray(keys)) {
+        keys = keys.split(/\s+/);
       }
+
+      for(var i = keys.length - 1; i >= 0; --i) {
+        elem.removeAttr('aria-' + keys[i]);
+      }
+
+      return elem;
     },
 
     hasAria: function(elem) {
       elem = elem[0] || elem;
+
       for (var i = elem.attributes.length - 1; i >= 0; --i) {
         if (elem.attributes[i].nodeName.match(/^aria-/)) {
           return true;
@@ -73,22 +76,12 @@
   });
 
   $.fn.extend({
-    aria: function(key, value) {
-      if(arguments.length === 0) {
-        return $.aria(this);
-      } else if (arguments.length === 1) {
-        return $.aria(this, key);
-      } else {
-        return $.aria(this, key, value);
-      }
+    aria: function() {
+      return $.aria.apply($, [this].concat($.makeArray(arguments)));
     },
 
-    removeAria: function(key) {
-      if (arguments.length === 0) {
-        return $.removeAria(this);
-      } else  {
-        return $.removeAria(this, key);
-      }
+    removeAria: function() {
+      return $.removeAria.apply($, [this].concat($.makeArray(arguments)));
     }
   });
 })(jQuery);

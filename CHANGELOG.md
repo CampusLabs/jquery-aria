@@ -1,3 +1,6 @@
+## 1.1.0
+  * removeAria accepts a list of names
+
 ## 1.0.1
  * fixing compatability with jQuery 1.7.2
 

@@ -44,13 +44,14 @@ This project uses [Semantic Versioning](http://semver.org/).
     jQuery.hasAria(document.getElementById('foo')); // => true
     jQuery.hasAria($('#foo')); // => true
 
-###jQuery.removeAria(element [, name])###
+###jQuery.removeAria(element [, name or list])###
   Removes `aria` attributes.
   
   **Args:**
   
   * element - A DOM element to be checked for `aria` attributes.
   * name - A string naming the ARIA data to remove.
+  * list - A string of space separated names or an Array of names.
   
   **Returns:** jQuery
   
@@ -61,7 +62,7 @@ This project uses [Semantic Versioning](http://semver.org/).
     jQuery.removeAria(document.getElementById('foo'), 'owns'); // removes the `aria-owns` attribute
     jQuery.removeAria($('#foo')); // removes all `aria` attributes
 
-###.removeAria([name])###
+###.removeAria([name or list])###
   An attached function that behaves the same as `jQuery.removeAria`.
 
 ## License
