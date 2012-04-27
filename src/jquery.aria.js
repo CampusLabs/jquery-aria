@@ -23,14 +23,14 @@
 
 // https://github.com/orgsync/jquery-aria
 
-// version 1.0.0
+// version 1.0.1
 
 (function($) {
   $.extend({
     aria: function(elem, key, value) {
       elem = $(elem);
 
-      if (key === undefined && value === undefined) {
+      if (arguments.length === 1) {
         var attributes = {};
         $.each(elem[0].attributes, function(i, value) {
           if (value.nodeName.match(/^aria-/)) {
@@ -39,6 +39,8 @@
         });
 
         return attributes;
+      } else if (arguments.length === 2) {
+        return elem.attr('aria-' + key);
       } else {
         return elem.attr('aria-' + key, value);
       }
@@ -72,11 +74,21 @@
 
   $.fn.extend({
     aria: function(key, value) {
-      return $.aria(this, key, value);
+      if(arguments.length === 0) {
+        return $.aria(this);
+      } else if (arguments.length === 1) {
+        return $.aria(this, key);
+      } else {
+        return $.aria(this, key, value);
+      }
     },
 
     removeAria: function(key) {
-      return $.removeAria(this, key);
+      if (arguments.length === 0) {
+        return $.removeAria(this);
+      } else  {
+        return $.removeAria(this, key);
+      }
     }
   });
 })(jQuery);
