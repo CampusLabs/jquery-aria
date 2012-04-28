@@ -1,6 +1,7 @@
-var elem;
+var elem, elems;
 beforeEach(function() {
   elem = $(document.createElement('div'));
+  elems = $.makeArray($(document.createElement('div')), $(document.createElement('div')));
 });
 
 describe('jQuery.aria(element, key, value)', function() {
@@ -71,6 +72,12 @@ describe('.aria(key, value)', function() {
     elem_2 = elem.clone().aria('haspopup', 'true');
 
     expect(elem_1.aria('haspopup')).toEqual($.aria(elem_2, 'haspopup'));
+  });
+
+  it('handles a list of elements', function() {
+    expect(elems.aria('haspopup', 'true')).toBeJqueryObject();
+    expect(elems.attr('aria-haspopup')).toEqual('true');
+    expect(elems.last().attr('aria-haspopup')).toEqual('true');
   });
 });
 
@@ -180,5 +187,15 @@ describe('.removeAria([name] [, name])', function() {
 
     expect(elem.removeAria('owns labelledby')).toBeJqueryObject();
     expect($.aria(elem)).toEqual({haspopup: 'true'});
+  });
+
+  it('handles a list of elements', function() {
+    elems.attr('aria-haspopup', 'true');
+    elems.last().attr('aria-haspopup', 'true').attr('aria-owns', 'foo');
+
+    expect(elems.removeAria('haspopup')).toBeJqueryObject();
+    expect(elems.attr('aria-haspopup')).toBeUndefined();
+    expect(elems.last().attr('aria-haspopup')).toBeUndefined();
+    expect(elems.last().attr('aria-owns')).toEqual('foo');
   });
 });

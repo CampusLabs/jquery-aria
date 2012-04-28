@@ -21,7 +21,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// version: 1.1.0
+// version: 2.0.0
 // homepage: https://github.com/orgsync/jquery-aria
 // dependency: jQuery, ~> 1.7.1
 
@@ -77,11 +77,27 @@
 
   $.fn.extend({
     aria: function() {
-      return $.aria.apply($, [this].concat($.makeArray(arguments)));
+      var args = $.makeArray(arguments);
+
+      if (arguments.length === 2) {
+        for(var i = this.length - 1; i >= 0; --i) {
+          $.aria.apply($, [this[i]].concat(args));
+        }
+
+        return this;
+      } else {
+        return $.aria.apply($, [this].concat(args));
+      }
     },
 
     removeAria: function() {
-      return $.removeAria.apply($, [this].concat($.makeArray(arguments)));
+      var args = $.makeArray(arguments);
+
+      for(var i = this.length - 1; i >= 0; --i) {
+        $.removeAria.apply($, [this[i]].concat(args));
+      }
+
+      return this;
     },
 
     addRole: function(roleName) {

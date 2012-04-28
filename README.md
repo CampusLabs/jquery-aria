@@ -28,7 +28,8 @@ Sets and returns `aria` attribute data.
 
 ###.aria(key, value)
 
-An attached function that behaves the same as `jQuery.aria`. 
+An attached function that behaves the same as `jQuery.aria`. When used as a setter
+it can work on an array of elements.
 
 ###jQuery.hasAria(element)
 
@@ -68,7 +69,8 @@ Removes `aria` attributes.
 
 ###.removeAria([name or list])
 
-An attached function that behaves the same as `jQuery.removeAria`.
+An attached function that behaves the same as `jQuery.removeAria` and can work
+on an array of elements.
 
 ###.addRole(roleName)
 

@@ -1,4 +1,6 @@
-## 1.1.0
+## 2.0.0
+  * aria when used as a setter and removeAria now work on an array of elements
+    and not just the first element
   * adding addRole, hasRole, removeRole and toggleRole
   * removeAria accepts a list of names
 
