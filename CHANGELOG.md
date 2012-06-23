@@ -1,4 +1,6 @@
 ## 2.1.0
+  * addRole accepts a function
+  * removeRole accepts a function
 
 ## 2.0.0
   * aria when used as a setter and removeAria now work on an array of elements
