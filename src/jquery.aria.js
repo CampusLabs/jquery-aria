@@ -77,10 +77,10 @@
 
   $.fn.extend({
     aria: function() {
-      var args = $.makeArray(arguments);
+      var i, args = $.makeArray(arguments);
 
       if (arguments.length === 2) {
-        for(var i = this.length - 1; i >= 0; --i) {
+        for(i = this.length - 1; i >= 0; --i) {
           $.aria.apply($, [this[i]].concat(args));
         }
 
@@ -91,34 +91,37 @@
     },
 
     removeAria: function() {
-      var args = $.makeArray(arguments);
+      var i, args = $.makeArray(arguments);
 
-      for(var i = this.length - 1; i >= 0; --i) {
+      for(i = this.length - 1; i >= 0; --i) {
         $.removeAria.apply($, [this[i]].concat(args));
       }
 
       return this;
     },
 
-    addRole: function(roleName) {
-      if (roleName !== '') {
-        for (var i = this.length - 1; i >= 0; --i) {
-          var elem = this[i];
-          var current_roles = elem.getAttribute('role');
+    addRole: function(value) {
+      var roles, i, elem, current_roles, j;
 
-          if (current_roles === null) {
-            elem.setAttribute('role', roleName);
-          } else {
-            var roles = roleName.split(/\s+/);
+      if (value && typeof value === 'string' && value !== '') {
+        roles = value.split(/\s+/);
+
+        for (i = this.length - 1; i >= 0; --i) {
+          elem = this[i];
+          current_roles = elem.getAttribute('role');
+
+          if (current_roles && current_roles !== '') {
             current_roles = ' ' + current_roles + ' ';
 
-            for (var j = 0, roles_length = roles.length; j < roles_length; ++j) {
-              if(current_roles.indexOf(' ' + roles[j] + ' ') === -1) {
+            for (j = 0, roles_length = roles.length; j < roles_length; ++j) {
+              if (current_roles.indexOf(' ' + roles[j] + ' ') < 0) {
                 current_roles += roles[j] + ' ';
               }
             }
 
             elem.setAttribute('role', current_roles.trim());
+          } else {
+            elem.setAttribute('role', value);
           }
         }
       }
@@ -127,13 +130,15 @@
     },
 
     hasRole: function(roleName) {
-      for (var i = this.length - 1; i >= 0; --i) {
-        var roles = this[i].getAttribute('role');
+      var i, roles;
 
-        if (roles !== null) {
+      for (i = this.length - 1; i >= 0; --i) {
+        roles = this[i].getAttribute('role');
+
+        if (roles && roles !== '') {
           roles = ' ' + roles + ' ';
 
-          if (roles.indexOf(' ' + roleName + ' ') !== -1) {
+          if (roles.indexOf(' ' + roleName + ' ') >= 0) {
             return true;
           }
         }
@@ -142,20 +147,29 @@
       return false;
     },
 
-    removeRole: function(roleName) {
-      for (var i = this.length - 1; i >= 0; --i) {
-        var elem = this[i];
+    removeRole: function(value) {
+      var i, elem, current_roles, roles, j;
 
-        if (arguments.length === 0) {
-          elem.setAttribute('role', '');
-        } else {
-          var current_roles = elem.getAttribute('role');
+      if (arguments.length === 0) {
+        for (i = this.length - 1; i >= 0; --i) {
+          this[i].setAttribute('role', '');
+        }
 
-          if (current_roles !== null) {
+        return this;
+      }
+
+      if (value && typeof value === 'string' && value !== '') {
+        roles = value.split(/\s+/);
+
+        for (i = this.length - 1; i >= 0; --i) {
+          elem = this[i];
+
+          current_roles = elem.getAttribute('role');
+
+          if (current_roles && current_roles !== '') {
             current_roles = ' ' + current_roles + ' ';
-            var roles = roleName.split(/\s+/);
 
-            for (var j = roles.length - 1; j >= 0; --j) {
+            for (j = roles.length - 1; j >= 0; --j) {
               current_roles = current_roles.replace(' ' + roles[j] + ' ', ' ');
             }
 
@@ -173,11 +187,13 @@
       } else if (addRole === false) {
         this.removeRole(roleName);
       } else {
-        var current_roles = ' ' + this.attr('role') + ' ';
-        var roles = roleName.split(/\s+/);
+        var current_roles, roles, i;
 
-        for (var i = roles.length - 1; i >= 0; --i) {
-          current_roles.indexOf(' ' + roles[i] + ' ') === -1 ?
+        current_roles = ' ' + this.attr('role') + ' ';
+        roles = roleName.split(/\s+/);
+
+        for (i = roles.length - 1; i >= 0; --i) {
+          current_roles.indexOf(' ' + roles[i] + ' ') < 0 ?
             this.addRole(roles[i]) :
             this.removeRole(roles[i]);
         }
