@@ -165,6 +165,13 @@
         return this;
       }
 
+      if ($.isFunction(value)) { 
+        return this.each(function(i) { 
+          elem = $(this);
+          elem.removeRole(value.call(this, i, elem.attr('role')));
+        }); 
+      }
+
       if (value && typeof value === 'string' && value !== '') {
         roles = value.split(/\s+/);
 

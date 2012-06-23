@@ -76,31 +76,46 @@ describe('.hasRole(roleName)', function() {
   });
 });
 
-describe('.removeRole([roleName])', function() {
+describe('.removeRole([value])', function() {
   beforeEach(function() {
     elem.attr('role', 'menu navigation');
   });
 
-  describe('no roleName is provided', function() {
-    it('removes all roles', function() {
-      expect(elem.removeRole()).toBeJqueryObject();
-      expect(elem.attr('role')).toEqual('');
+  describe('value', function() {
+    describe('is not provided', function() {
+      it('removes all roles', function() {
+        expect(elem.removeRole()).toBeJqueryObject();
+        expect(elem.attr('role')).toEqual('');
+      });
     });
-  });
 
-  describe('roleName is a single role', function() {
-    it('removes the role', function() {
-      expect(elem.removeRole('navigation')).toBeJqueryObject();
-      expect(elem.attr('role')).not.toMatch('navigation');
+    describe('is a single role', function() {
+      it('removes a role', function() {
+        expect(elem.removeRole('navigation')).toBeJqueryObject();
+        expect(elem.attr('role')).not.toMatch('navigation');
+      });
     });
-  });
 
-  describe('roleName is a space separated list of roles', function() {
-    it('removes the roles', function() {
-      elem.attr('role', elem.attr('role') + ' search');
+    describe('is a space separated list of roles', function() {
+      it('removes the roles', function() {
+        elem.attr('role', elem.attr('role') + ' search');
 
-      expect(elem.removeRole('navigation menu')).toBeJqueryObject();
-      expect(elem.attr('role')).toEqual('search');
+        expect(elem.removeRole('navigation menu')).toBeJqueryObject();
+        expect(elem.attr('role')).toEqual('search');
+      });
+    });
+
+    describe('is a function', function() {
+      it('removes the roles', function() {
+        elems.first().addRole('item-0');
+        elems.last().addRole('item-1');
+
+        expect(elems.removeRole(function(i) {
+          return 'item-' + i;
+        })).toBeJqueryObject();
+        expect(elems.first().attr('role')).toEqual('');
+        expect(elems.last().attr('role')).toEqual('');
+      });
     });
   });
 
