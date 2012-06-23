@@ -103,6 +103,13 @@
     addRole: function(value) {
       var roles, i, elem, current_roles, j;
 
+      if ($.isFunction(value)) { 
+        return this.each(function(i) { 
+          elem = $(this);
+          elem.addRole(value.call(this, i, elem.attr('role')));
+        }); 
+      }
+
       if (value && typeof value === 'string' && value !== '') {
         roles = value.split(/\s+/);
 

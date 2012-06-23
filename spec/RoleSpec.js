@@ -4,8 +4,8 @@ beforeEach(function() {
   elems = $.makeArray($(document.createElement('div')), $(document.createElement('div')));
 });
 
-describe('.addRole(roleName)', function() {
-  describe('roleName', function() {
+describe('.addRole(value)', function() {
+  describe('value', function() {
     describe('is an empty string', function() {
       it('does nothing', function() {
         expect(elem.addRole('')).toBeJqueryObject();
@@ -32,6 +32,16 @@ describe('.addRole(roleName)', function() {
       it('adds the roles', function() {
         expect(elem.addRole('menu navigation')).toBeJqueryObject();
         expect(elem.attr('role')).toEqual('menu navigation');
+      });
+    });
+
+    describe('is a function', function() {
+      it('adds the roles', function() {
+        expect(elems.addRole(function(i) {
+          return 'item-' + i;
+        })).toBeJqueryObject();
+        expect(elems.first().attr('role')).toEqual('item-0');
+        expect(elems.last().attr('role')).toEqual('item-1');
       });
     });
   });
