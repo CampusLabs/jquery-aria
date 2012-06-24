@@ -195,16 +195,23 @@
       return this;
     },
 
-    toggleRole: function(roleName, addRole) {
-      if (addRole === true) {
-        this.addRole(roleName);
-      } else if (addRole === false) {
-        this.removeRole(roleName);
+    toggleRole: function(value, add) {
+      if ($.isFunction(value)) { 
+        return this.each(function(i) { 
+          elem = $(this);
+          elem.toggleRole(value.call(this, i, elem.attr('role'), add), add);
+        }); 
+      }
+
+      if (add === true) {
+        this.addRole(value);
+      } else if (add === false) {
+        this.removeRole(value);
       } else {
         var current_roles, roles, i;
 
         current_roles = ' ' + this.attr('role') + ' ';
-        roles = roleName.split(/\s+/);
+        roles = value.split(/\s+/);
 
         for (i = roles.length - 1; i >= 0; --i) {
           current_roles.indexOf(' ' + roles[i] + ' ') < 0 ?

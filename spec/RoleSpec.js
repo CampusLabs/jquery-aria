@@ -6,7 +6,7 @@ beforeEach(function() {
 
 describe('.addRole(value)', function() {
   describe('value', function() {
-    describe('is an empty string', function() {
+    describe('is an empty String', function() {
       it('does nothing', function() {
         expect(elem.addRole('')).toBeJqueryObject();
         expect(elem.attr('role')).toBeUndefined();
@@ -35,7 +35,7 @@ describe('.addRole(value)', function() {
       });
     });
 
-    describe('is a function', function() {
+    describe('is a Function', function() {
       it('adds the roles', function() {
         expect(elems.addRole(function(i) {
           return 'item-' + i;
@@ -105,7 +105,7 @@ describe('.removeRole([value])', function() {
       });
     });
 
-    describe('is a function', function() {
+    describe('is a Function', function() {
       it('removes the roles', function() {
         elems.first().addRole('item-0');
         elems.last().addRole('item-1');
@@ -128,12 +128,12 @@ describe('.removeRole([value])', function() {
   });
 });
 
-describe('.toggleRole(roleName[, switch])', function() {
+describe('.toggleRole(value[, switch])', function() {
   beforeEach(function() {
     elem.attr('role', 'menu navigation');
   });
 
-  describe('roleName', function() {
+  describe('value', function() {
     describe('is a single role', function() {
       it('adds or removes the role', function() {
         expect(elem.toggleRole('navigation')).toBeJqueryObject();
@@ -147,22 +147,71 @@ describe('.toggleRole(roleName[, switch])', function() {
         expect(elem.attr('role')).toEqual('search');
       });
     });
+
+    describe('is a Function', function() {
+      it('adds or removes the roles', function() {
+        elems.addRole('menu navigation');
+        elems.first().addRole('item-0');
+
+        expect(elems.toggleRole(function(i, current_roles) {
+          return current_roles + ' search item-' + i;
+        })).toBeJqueryObject();
+        expect(elems.first().attr('role')).toEqual('search');
+        expect(elems.last().attr('role')).toEqual('item-1 search');
+      });
+    });
   });
 
   describe('switch', function() {
     describe('is `true`', function() {
-      it('adds the role', function() {
-        elem.toggleRole('search', true);
+      describe('with value as a String', function() {
+        it('adds the role', function() {
+          elem.toggleRole('search', true);
 
-        expect(elem.attr('role')).toMatch('search');
+          expect(elem.attr('role')).toMatch('search');
+        });
+      });
+
+      describe('with value as a Function', function() {
+        it('adds the role', function() {
+          elem.addRole('menu navigation');
+
+          elem.toggleRole(function(i, current_roles, add) {
+            if (add) {
+              return current_roles + ' search item-' + i;
+            } else {
+              return '';
+            }
+          }, true);
+
+          expect(elem.attr('role')).toEqual('menu navigation search item-0');
+        });
       });
     });
 
     describe('is `false`', function() {
-      it('removes the role', function() {
-        elem.toggleRole('navigation', false);
+      describe('with value as a String', function() {
+        it('removes the role', function() {
+          elem.toggleRole('navigation', false);
 
-        expect(elem.attr('role')).not.toMatch('navigation');
+          expect(elem.attr('role')).not.toMatch('navigation');
+        });
+      });
+
+      describe('with value as a Function', function() {
+        it('removes the role', function() {
+          elem.addRole('menu navigation item-0');
+
+          elem.toggleRole(function(i, current_roles, add) {
+            if (add) {
+              return '';
+            } else {
+              return current_roles.split(' ')[0] + ' item-' + i;
+            }
+          }, false);
+
+          expect(elem.attr('role')).toEqual('navigation');
+        });
       });
     });
   });
