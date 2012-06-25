@@ -27,6 +27,27 @@
 
 (function($) {
   $.extend({
+    // Public: Gets and sets ARIA attributes.
+    //
+    // elem  - The DOM or jQuery element.
+    // key   - The String naming the ARIA attribute to get or set (default: null).
+    // value - The value used to set the ARIA attribute (default: null).
+    //
+    // Examples
+    //
+    //   // get all
+    //   jQuery.aria(element)
+    //   # => {owns: 'foo', describedby: 'bar'}
+    //
+    //   // get
+    //   jQuery.aria(element, 'owns')
+    //   # => 'foo'
+    //
+    //   // set
+    //   jQuery.aria(element, 'owns', 'baz')
+    //   # => jQuery(element)
+    //
+    // Returns an Object.
     aria: function(elem, key, value) {
       elem = $(elem);
 
@@ -46,6 +67,20 @@
       }
     },
 
+    // Public: Removes ARIA attributes.
+    //
+    // elem - The DOM or jQuery element.
+    // key  - The String naming the ARIA attribute to remove (default: null).
+    //
+    // Examples
+    //
+    //   jQuery.removeAria(element)
+    //   # => jQuery(element)
+    //
+    //   jQuery.removeAria(element, 'owns')
+    //   # => jQuery(element)
+    //
+    // Returns a jQuery Object.
     removeAria: function(elem, keys) {
       elem = $(elem);
 
@@ -62,6 +97,16 @@
       return elem;
     },
 
+    // Public: Checks for the existance of an ARIA attribute.
+    //
+    // elem - The DOM or jQuery element.
+    //
+    // Examples
+    //
+    //   jQuery.hasAria(element, 'owns')
+    //   # => true
+    //
+    // Returns a Boolean.
     hasAria: function(elem) {
       elem = elem[0] || elem;
 
@@ -76,6 +121,26 @@
   });
 
   $.fn.extend({
+    // Public: Gets and sets ARIA attributes.
+    //
+    // key   - The String naming the ARIA attribute to get or set (default: null).
+    // value - The value used to set the ARIA attribute (default: null).
+    //
+    // Examples
+    //
+    //   // get all
+    //   element.aria()
+    //   # => {owns: 'foo', describedby: 'bar'}
+    //
+    //   // get
+    //   element.aria('owns')
+    //   # => 'foo'
+    //
+    //   // set
+    //   element.aria('owns', 'baz')
+    //   # => element
+    //
+    // Returns an Object.
     aria: function() {
       var i, args = $.makeArray(arguments);
 
@@ -90,6 +155,19 @@
       }
     },
 
+    // Public: Removes ARIA attributes.
+    //
+    // key - The String naming the ARIA attribute to remove (default: null).
+    //
+    // Examples
+    //
+    //   elements.removeAria()
+    //   # => elements
+    //
+    //   element.removeAria('owns')
+    //   # => element
+    //
+    // Returns the element(s).
     removeAria: function() {
       var i, args = $.makeArray(arguments);
 
@@ -100,6 +178,24 @@
       return this;
     },
 
+    // Public: Adds roles to the ARIA "role" attribute.
+    //
+    // value - The String or Function returning a String of space separated
+    //         roles. Functions are provided the index position of the element
+    //         in the set and the existing role name(s) as arguments. Within the
+    //         function, `this` refers to the current element in the set.
+    //
+    // Examples
+    //
+    //   element.addRole('menu navigation')
+    //   # => element
+    //
+    //   elements.addRole(function(index, current_roles) {
+    //     return 'menu navigation';
+    //   })
+    //   # => elements
+    //
+    // Returns the element(s).
     addRole: function(value) {
       var roles, i, elem, current_roles, j;
 
@@ -136,7 +232,20 @@
       return this;
     },
 
-    hasRole: function(roleName) {
+    // Public: Checks for the existance of a role.
+    //
+    // role_name - The String containing a role name.
+    //
+    // Examples
+    //
+    //   element.hasrole('menu')
+    //   # => false
+    //
+    //   jQuery('div').hasrole('menu')
+    //   # => true
+    //
+    // Returns a Boolean.
+    hasRole: function(role_name) {
       var i, roles;
 
       for (i = this.length - 1; i >= 0; --i) {
@@ -145,7 +254,7 @@
         if (roles && roles !== '') {
           roles = ' ' + roles + ' ';
 
-          if (roles.indexOf(' ' + roleName + ' ') >= 0) {
+          if (roles.indexOf(' ' + role_name + ' ') >= 0) {
             return true;
           }
         }
@@ -154,6 +263,29 @@
       return false;
     },
 
+    // Public: Removes roles from the ARIA "role" attribute.
+    //
+    // value - The String or Function returning a String of space separated
+    //         roles. Functions are provided the index position of the element
+    //         in the set and the existing role name(s) as arguments. Within the
+    //         function, `this` refers to the current element in the set
+    //         (default: null).
+    //
+    // Examples
+    //
+    //   // remove all roles
+    //   element.removeRole()
+    //   # => element
+    //
+    //   element.removeRole('menu navigation')
+    //   # => element
+    //
+    //   elements.removeRole(function(index, current_roles) {
+    //     return 'menu navigation';
+    //   })
+    //   # => elements
+    //
+    // Returns the element(s).
     removeRole: function(value) {
       var i, elem, current_roles, roles, j;
 
@@ -195,6 +327,38 @@
       return this;
     },
 
+    // Public: Adds or removes roles from the ARIA "role" attribute.
+    //
+    // value - The String or Function returning a String of space separated
+    //         roles. Functions are provided the index position of the element
+    //         in the set, the existing role name(s) and the value of the `add`
+    //         argument provided in the original function call as arguments.
+    //         Within the function, `this` refers to the current element in the
+    //         set (default: null).
+    // add   - The Boolean indicating the forced addition or removal of roles.
+    //         Passing `true` forces the roles to be added. Passing `false`
+    //         forces the roles to be removed (default: null).
+    //
+    // Examples
+    //
+    //   // add "menu" to all roles
+    //   element.toggleRole('menu', true)
+    //   # => element
+    //
+    //   // remove "menu" from all roles
+    //   element.toggleRole('menu', false)
+    //   # => element
+    //
+    //   // toggle "menu" role
+    //   elements.toggleRole('menu')
+    //   # => elements
+    //
+    //   elements.toggleRole(function(index, current_roles, add) {
+    //     return 'menu navigation';
+    //   })
+    //   # => elements
+    //
+    // Returns the element(s).
     toggleRole: function(value, add) {
       if ($.isFunction(value)) { 
         return this.each(function(i) { 
