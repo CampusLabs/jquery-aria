@@ -6,11 +6,11 @@
     "accessibility",
     "aria"
   ],
-  "version": "v2.1.2",
+  "version": "v2.1.3",
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/orgsync/jquery-aria/blob/v2.1.2/LICENSE.txt"
+      "url": "https://github.com/orgsync/jquery-aria/blob/v2.1.3/LICENSE.txt"
     }
   ],
   "author": {
