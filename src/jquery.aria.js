@@ -1,4 +1,4 @@
-// Copyright (c) 2012 OrgSync, Inc.
+// Copyright (c) 2013 OrgSync, Inc.
 // 
 // MIT License
 // 
@@ -21,7 +21,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// version: 2.1.0
+// version: 2.1.1
 // homepage: https://github.com/orgsync/jquery-aria
 // dependency: jQuery, ~> 1.7.1
 

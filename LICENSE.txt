@@ -1,4 +1,4 @@
-Copyright (c) 2013 OrgSync and Aaron Lasseigne
+Copyright (c) 2013 OrgSync, Inc.
 
 MIT License
 
