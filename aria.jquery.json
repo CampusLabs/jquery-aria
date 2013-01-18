@@ -6,21 +6,23 @@
     "accessibility",
     "aria"
   ],
-  "version": "2.1.4",
+  "version": "2.1.5",
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/orgsync/jquery-aria/blob/v2.1.4/LICENSE.txt"
+      "url": "https://github.com/orgsync/jquery-aria/blob/v2.1.5/LICENSE.txt"
     }
   ],
   "author": {
     "name": "OrgSync Inc.",
+    "email": "devteam@orgsync.com",
     "url": "https://github.com/orgsync"
   },
   "maintainers": [
     {
       "name": "Aaron Lasseigne",
-      "email": "aaron@orgsync.com"
+      "email": "aaron.lasseigne@gmail.com",
+      "url": "https://github.com/AaronLasseigne"
     }
   ],
   "bugs": "https://github.com/orgsync/jquery-aria/issues",

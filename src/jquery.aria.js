@@ -21,7 +21,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// version: 2.1.4
+// version: 2.1.5
 // homepage: https://github.com/orgsync/jquery-aria
 // dependency: jQuery, ~> 1.7.1
 
