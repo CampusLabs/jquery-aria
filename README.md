@@ -1,5 +1,7 @@
 # jQuery ARIA
 
+[![Code Climate](https://codeclimate.com/github/orgsync/jquery-aria.png)](https://codeclimate.com/github/orgsync/jquery-aria)
+
 A jQuery plugin that adds support for [ARIA](http://www.w3.org/WAI/intro/aria) attributes.
 
 jQuery methods:
