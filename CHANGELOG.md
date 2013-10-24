@@ -1,3 +1,6 @@
+## 2.1.6
+  * add missing var declarations
+
 ## 2.1.0
   * addRole accepts a function
   * removeRole accepts a function
