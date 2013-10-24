@@ -197,7 +197,7 @@
     //
     // Returns the element(s).
     addRole: function(value) {
-      var roles, i, elem, current_roles, j;
+      var roles, i, elem, current_roles, j, roles_length;
 
       if ($.isFunction(value)) { 
         return this.each(function(i) { 
