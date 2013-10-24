@@ -362,7 +362,7 @@
     toggleRole: function(value, add) {
       if ($.isFunction(value)) { 
         return this.each(function(i) { 
-          elem = $(this);
+          var elem = $(this);
           elem.toggleRole(value.call(this, i, elem.attr('role'), add), add);
         }); 
       }
