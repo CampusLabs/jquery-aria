@@ -1,7 +1,7 @@
 // Copyright (c) 2013 OrgSync, Inc.
-// 
+//
 // MIT License
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -9,10 +9,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -199,11 +199,11 @@
     addRole: function(value) {
       var roles, i, elem, current_roles, j, roles_length;
 
-      if ($.isFunction(value)) { 
-        return this.each(function(i) { 
+      if ($.isFunction(value)) {
+        return this.each(function(i) {
           elem = $(this);
           elem.addRole(value.call(this, i, elem.attr('role')));
-        }); 
+        });
       }
 
       if (value && typeof value === 'string' && value !== '') {
@@ -297,11 +297,11 @@
         return this;
       }
 
-      if ($.isFunction(value)) { 
-        return this.each(function(i) { 
+      if ($.isFunction(value)) {
+        return this.each(function(i) {
           elem = $(this);
           elem.removeRole(value.call(this, i, elem.attr('role')));
-        }); 
+        });
       }
 
       if (value && typeof value === 'string' && value !== '') {
@@ -360,11 +360,11 @@
     //
     // Returns the element(s).
     toggleRole: function(value, add) {
-      if ($.isFunction(value)) { 
-        return this.each(function(i) { 
+      if ($.isFunction(value)) {
+        return this.each(function(i) {
           var elem = $(this);
           elem.toggleRole(value.call(this, i, elem.attr('role'), add), add);
-        }); 
+        });
       }
 
       if (add === true) {
