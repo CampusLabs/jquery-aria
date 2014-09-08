@@ -1,0 +1,11 @@
+{
+  "name": "jquery.aria",
+  "version": "2.1.7",
+  "ignore": [
+    "spec",
+    "aria.jquery.json"
+  ],
+  "dependencies": {
+    "jquery": "x"
+  }
+}
